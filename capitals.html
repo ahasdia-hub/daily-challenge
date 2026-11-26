@@ -5401,7 +5401,6 @@ LEVELS.forEach(function (l, i) { l.meta.par = [2, 3, 3, 4, 5, 5, 7, 6, 7, 9, 9, 
       if (m.type === 'init' && !TDC) {
         TDC = { kid: String(m.kid || ''), max: Math.max(0, Number(m.max) || 0), month: Number(m.month) || 0, preview: !!m.preview };
         var st = m.state && typeof m.state === 'object' ? m.state : { lang: m.lang, mute: !!m.mute };
-        if (TDC.preview) st = Object.assign({}, st, { all: true });   // the parent's preview: every level open, nothing saved
         boot(st);
       } else if (m.type === 'award') onAward(m);
     });
