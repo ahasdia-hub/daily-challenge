@@ -4768,7 +4768,7 @@ LEVELS.forEach(function (l, i) { l.meta.par = [2, 3, 3, 4, 5, 5, 7, 6, 7, 9, 9, 
       flyTo: 'טסים אל', flyFrom: 'יציאה:', flySkip: 'דלגו על הטיסה',
       code: 'קוד', codeT: 'הקלידו קוד כדי לפתוח את כל השלבים', codeGo: 'פתיחה', codeBad: 'הקוד לא נכון', codeOk: 'כל השלבים פתוחים!', codeOn: 'כל השלבים פתוחים',
       pzSeal: 'הידית חתומה בחידה. פתרו אותה כדי לשבור את החותם', pzSealQ: 'הידית חתומה בחידון. ענו על השאלות כדי לשבור את החותם', pzOk: 'פתרתם! החותם נשבר', pzGo: 'המשך', pzLater: 'אחר כך', pzReset: 'מחדש', pzLeft: function (n) { return n === 1 ? 'נשארה חידה אחת בשלב' : 'נשארו ' + n + ' חידות בשלב'; },
-      stepBtn: 'הראו לי את הצעד הבא', tdcBack: 'חזרה לאתגר היומי', tdcMonth: function (n) { return '⭐ בונוס החודש: ' + n; },
+      stepBtn: 'הראו לי את הצעד הבא', tdcBack: 'חזרה לאתגר היומי', tdcPreview: 'תצוגה מקדימה · שום דבר לא נשמר', tdcPrevNote: 'תצוגה מקדימה, לא נשמר', tdcMonth: function (n) { return '⭐ בונוס החודש: ' + n; },
       tdcAward: function (n) { return '⭐ נקודות בונוס לאתגר היומי: \u2066+' + n + '\u2069'; },
       tdcSame: function (b, m) { return b >= m ? 'על השלב הזה כבר קיבלתם את כל נקודות הבונוס' : 'על השלב הזה כבר קיבלתם ' + b + ' מתוך ' + m + ' נקודות בונוס. פתרון עם פחות רמזים יוסיף עוד'; },
       tdcHint: function (p, m) { return 'בונוס לאתגר היומי בשלב הזה: עד ' + p + ' מתוך ' + m + ' נקודות'; }, chip: function (s) { return 'ניקוד ' + s; }, thinking: 'רגע, מחפשים את הצעד הבא…', stepCost: '\u2066−10\u2069 נקודות', close: 'סגירה', pts: function () { return 'נק׳'; },
@@ -4787,7 +4787,7 @@ LEVELS.forEach(function (l, i) { l.meta.par = [2, 3, 3, 4, 5, 5, 7, 6, 7, 9, 9, 
       flyTo: 'نطير إلى', flyFrom: 'الانطلاق من', flySkip: 'تخطّي الرحلة',
       code: 'رمز', codeT: 'اكتبوا الرمز لفتح كل المراحل', codeGo: 'فتح', codeBad: 'الرمز غير صحيح', codeOk: 'كل المراحل مفتوحة!', codeOn: 'كل المراحل مفتوحة',
       pzSeal: 'المقبض مختوم بأحجية. حلّوها لكسر الختم', pzSealQ: 'المقبض مختوم بمسابقة. أجيبوا عن الأسئلة لكسر الختم', pzOk: 'أحسنتم! انكسر الختم', pzGo: 'متابعة', pzLater: 'لاحقًا', pzReset: 'من جديد', pzLeft: function (n) { return n === 1 ? 'بقيت أحجية واحدة في المرحلة' : 'بقيت ' + n + ' أحاجٍ في المرحلة'; },
-      stepBtn: 'أرِني الخطوة التالية', tdcBack: 'العودة إلى التحدّي اليومي', tdcMonth: function (n) { return '⭐ مكافأة هذا الشهر: ' + n; },
+      stepBtn: 'أرِني الخطوة التالية', tdcBack: 'العودة إلى التحدّي اليومي', tdcPreview: 'معاينة · لا يُحفظ شيء', tdcPrevNote: 'معاينة، لا يُحفظ', tdcMonth: function (n) { return '⭐ مكافأة هذا الشهر: ' + n; },
       tdcAward: function (n) { return '⭐ نقاط المكافأة في التحدّي اليومي: \u2066+' + n + '\u2069'; },
       tdcSame: function (b, m) { return b >= m ? 'حصلتم من قبل على كل نقاط المكافأة في هذه المرحلة' : 'حصلتم من قبل على ' + b + ' من ' + m + ' نقاط مكافأة في هذه المرحلة. الحلّ بتلميحات أقلّ يضيف المزيد'; },
       tdcHint: function (p, m) { return 'مكافأة التحدّي اليومي في هذه المرحلة: حتى ' + p + ' من ' + m; }, chip: function (s) { return 'النقاط ' + s; }, thinking: 'لحظة، نبحث عن الخطوة التالية…', stepCost: '\u2066−10\u2069 نقاط', close: 'إغلاق', pts: function (n) { return n >= 3 && n <= 10 ? 'نقاط' : 'نقطة'; },
@@ -4806,7 +4806,7 @@ LEVELS.forEach(function (l, i) { l.meta.par = [2, 3, 3, 4, 5, 5, 7, 6, 7, 9, 9, 
       flyTo: 'Flying to', flyFrom: 'Departing from', flySkip: 'Skip the flight',
       code: 'Code', codeT: 'Enter a code to unlock every level', codeGo: 'Unlock', codeBad: 'Wrong code', codeOk: 'All levels unlocked!', codeOn: 'All levels are unlocked',
       pzSeal: 'This lever is sealed by a puzzle. Solve it to break the seal', pzSealQ: 'This lever is sealed by a quiz. Answer the questions to break the seal', pzOk: 'Solved! The seal is broken', pzGo: 'Continue', pzLater: 'Later', pzReset: 'Reset', pzLeft: function (n) { return n === 1 ? 'One puzzle left in this level' : n + ' puzzles left in this level'; },
-      stepBtn: 'Show me the next step', tdcBack: 'Back to The Daily Challenge', tdcMonth: function (n) { return '⭐ Bonus this month: ' + n; },
+      stepBtn: 'Show me the next step', tdcBack: 'Back to The Daily Challenge', tdcPreview: 'Preview · nothing is saved', tdcPrevNote: 'preview, not saved', tdcMonth: function (n) { return '⭐ Bonus this month: ' + n; },
       tdcAward: function (n) { return '⭐ Bonus points for The Daily Challenge: +' + n; },
       tdcSame: function (b, m) { return b >= m ? 'You already earned all the bonus points for this level' : 'You already earned ' + b + ' of ' + m + ' bonus points for this level. Solve it with fewer hints to earn more'; },
       tdcHint: function (p, m) { return 'Daily Challenge bonus for this level: up to ' + p + ' of ' + m; }, chip: function (s) { return 'Score ' + s; }, thinking: 'One moment, finding the next step…', stepCost: '−10 points', close: 'Close', pts: function (n) { return n === 1 ? 'pt' : 'pts'; },
@@ -4835,7 +4835,7 @@ LEVELS.forEach(function (l, i) { l.meta.par = [2, 3, 3, 4, 5, 5, 7, 6, 7, 9, 9, 
   function fmtN(x) { var v = Math.round((Number(x) || 0) * 10) / 10; return String(v); }
   function bonusFor(score) { return TDC ? Math.round(TDC.max * score / 10) / 10 : 0; }
   function save() {
-    if (EMBED) { if (TDC) tdcPost({ type: 'save', state: JSON.parse(JSON.stringify(P)) }); return; }
+    if (EMBED) { if (TDC && !TDC.preview) tdcPost({ type: 'save', state: JSON.parse(JSON.stringify(P)) }); return; }
     try { localStorage.setItem('impossible-capitals-v1', JSON.stringify(P)); } catch (e) { }
   }
   function loadP(d) {
@@ -5168,8 +5168,8 @@ LEVELS.forEach(function (l, i) { l.meta.par = [2, 3, 3, 4, 5, 5, 7, 6, 7, 9, 9, 
     if (!G || m.level !== G.i || !$('#quiz').classList.contains('show')) return;
     var tx = tr(), el = $('#qAward');
     if (!(m.max > 0)) { el.textContent = ''; return; }
-    el.textContent = m.added > 0 ? tx.tdcAward(fmtN(m.added)) : tx.tdcSame(fmtN(m.best), fmtN(m.max));
-    el.className = 'qaward' + (m.added > 0 ? ' got' : '');
+    el.textContent = (m.added > 0 ? tx.tdcAward(fmtN(m.added)) : tx.tdcSame(fmtN(m.best), fmtN(m.max))) + (m.preview ? ' (' + tx.tdcPrevNote + ')' : '');
+    el.className = 'qaward' + (m.added > 0 && !m.preview ? ' got' : '');
   }
   $('#qNext').addEventListener('click', function () {
     var i = G.i;
@@ -5248,7 +5248,7 @@ LEVELS.forEach(function (l, i) { l.meta.par = [2, 3, 3, 4, 5, 5, 7, 6, 7, 9, 9, 
     applyDir();
     $('#hTitle').textContent = tx.title;
     $('#tdcBar').hidden = !TDC;
-    if (TDC) { $('#hExit').textContent = tx.tdcBack; $('#hBonus').textContent = tx.tdcMonth(fmtN(TDC.month)); $('#hBonus').hidden = !(TDC.max > 0); }
+    if (TDC) { $('#hExit').textContent = tx.tdcBack; $('#hBonus').textContent = TDC.preview ? tx.tdcPreview : tx.tdcMonth(fmtN(TDC.month)); $('#hBonus').hidden = !(TDC.max > 0 || TDC.preview); }
     var all = LV.every(function (_, i) { return P.done[i]; });
     $('#hSub').textContent = all ? tx.endS : tx.sub;
     var nDone = LV.filter(function (_, i) { return P.done[i]; }).length, nGold = LV.filter(function (_, i) { return P.done[i] === 2; }).length;
@@ -5399,8 +5399,9 @@ LEVELS.forEach(function (l, i) { l.meta.par = [2, 3, 3, 4, 5, 5, 7, 6, 7, 9, 9, 
       var m = e.data;
       if (e.source !== window.parent || !m || m.src !== 'tdc') return;
       if (m.type === 'init' && !TDC) {
-        TDC = { kid: String(m.kid || ''), max: Math.max(0, Number(m.max) || 0), month: Number(m.month) || 0 };
+        TDC = { kid: String(m.kid || ''), max: Math.max(0, Number(m.max) || 0), month: Number(m.month) || 0, preview: !!m.preview };
         var st = m.state && typeof m.state === 'object' ? m.state : { lang: m.lang, mute: !!m.mute };
+        if (TDC.preview) st = Object.assign({}, st, { all: true });   // the parent's preview: every level open, nothing saved
         boot(st);
       } else if (m.type === 'award') onAward(m);
     });

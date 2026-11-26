@@ -1044,9 +1044,8 @@ function gameArt(){
     '<path d="M30 10v8" stroke="#14213d" stroke-width="1.6"/><path d="M30 10l6 2-6 2z" fill="#e76f51"/><circle cx="20" cy="37.5" r="2.2" fill="#e76f51"/><path d="M20 35v-2.5" stroke="#14213d" stroke-width="1.4"/></svg></span>';
 }
 function vGameCard(kid){
-  if (S.preview) return '';
   var n = gameDocs(kid).length, R = rules(), mo = bonusMonth(kid);
-  var sub = n ? n + '/' + GAME.levels + ' levels' + (R.gamePoints > 0 ? ' · +' + fmtPts(mo) + ' this month' : '') : (R.gamePoints > 0 ? 'Up to ' + fmtPts(R.gamePoints) + ' bonus points a level' : '25 puzzle levels around the world');
+  var sub = S.preview ? n + '/' + GAME.levels + ' levels · try it, nothing is saved' : n ? n + '/' + GAME.levels + ' levels' + (R.gamePoints > 0 ? ' · +' + fmtPts(mo) + ' this month' : '') : (R.gamePoints > 0 ? 'Up to ' + fmtPts(R.gamePoints) + ' bonus points a level' : '25 puzzle levels around the world');
   return '<button class="game-card" data-act="game" aria-label="Play ' + esc(GAME.name) + ', the bonus game">' + gameArt() +
     '<span class="gc-main"><span class="gc-kick">Bonus game</span><span class="gc-title">' + esc(GAME.name) + '</span><span class="gc-sub num">' + esc(sub) + '</span></span>' +
     '<span class="gc-go">' + ic('play') + ' Play</span></button>';
@@ -1066,16 +1065,23 @@ function gameAward(kid, m){
   dbSetRetry('bonus/' + id, doc).catch(function(e){ toast(errMsg(e), 'bad'); });
   return {added:added, best:doc.best};
 }
+// what a finished level would give, without saving anything (the parent's preview)
+function gameAwardPreview(kid, m){
+  var lvl = Math.round(Number(m.level)), score = Math.max(0, Math.min(100, Math.round(Number(m.score) || 0)));
+  if (!(lvl >= 0 && lvl < GAME.levels)) return null;
+  var pts = round1(rules().gamePoints * score / 100), cur = S.bonus.get(kid + '_' + GAME.id + '_' + String(lvl + 1).padStart(2, '0')), best = cur ? Number(cur.best) || 0 : 0;
+  return {added:round1(Math.max(0, pts - best)), best:best};
+}
 var gameUI = null;
 function openGame(){
-  if (!S.kid || S.preview || gameUI || !S.db) return;
+  if (!S.kid || gameUI || !S.db) return;
   // the saved progress and bonus points must be in before the game starts, or a fresh start could overwrite them
   if (!S.loaded.bonus || !S.loaded.games){ toast(ic('clock') + ' One moment, loading the game…'); return; }
   var layer = $('#gameLayer'), f = document.createElement('iframe');
   layer.innerHTML = '<div class="gl-load"><div class="spinner"></div>Loading ' + esc(GAME.name) + '…</div>';
   f.src = GAME.file + '?embed=tdc'; f.title = GAME.name; f.setAttribute('allow', 'autoplay; fullscreen');
   layer.appendChild(f); layer.hidden = false; document.body.classList.add('game-open');
-  gameUI = {kid:S.kid, frame:f, saveT:0, pending:null, earned:0};
+  gameUI = {kid:S.kid, frame:f, saveT:0, pending:null, earned:0, preview:!!S.preview};
   try { history.pushState({tdcGame:1}, ''); gameUI.hist = true; } catch(e){}
 }
 function flushGameSave(){
@@ -1100,9 +1106,12 @@ window.addEventListener('message', function(e){
   var g = gameUI; if (!g || !g.frame || e.source !== g.frame.contentWindow) return;
   var m = e.data; if (!m || m.src !== 'capitals') return;
   function post(x){ x.src = 'tdc'; try { g.frame.contentWindow.postMessage(x, location.origin && location.origin !== 'null' ? location.origin : '*'); } catch(err){} }
-  if (m.type === 'ready'){ var k = kidInfo(g.kid); post({type:'init', kid:g.kid, name:k.name, lang:k.lang === 'en' ? 'en' : k.lang, mute:S.muted, state:gameState(g.kid), max:rules().gamePoints, month:bonusMonth(g.kid)}); }
-  else if (m.type === 'save' && m.state && typeof m.state === 'object'){ g.pending = m.state; clearTimeout(g.saveT); g.saveT = setTimeout(flushGameSave, 1200); }
-  else if (m.type === 'level'){ var r = gameAward(g.kid, m); if (r){ g.earned = round1(g.earned + r.added); post({type:'award', level:m.level, added:r.added, best:r.best, max:rules().gamePoints, month:bonusMonth(g.kid)}); } }
+  if (m.type === 'ready'){ var k = kidInfo(g.kid); post({type:'init', kid:g.kid, name:k.name, lang:k.lang, mute:S.muted, state:gameState(g.kid), max:rules().gamePoints, month:bonusMonth(g.kid), preview:g.preview}); }
+  else if (m.type === 'save' && m.state && typeof m.state === 'object' && !g.preview){ g.pending = m.state; clearTimeout(g.saveT); g.saveT = setTimeout(flushGameSave, 1200); }
+  else if (m.type === 'level'){
+    var r = g.preview ? gameAwardPreview(g.kid, m) : gameAward(g.kid, m);
+    if (r){ if (!g.preview) g.earned = round1(g.earned + r.added); post({type:'award', level:m.level, added:r.added, best:r.best, max:rules().gamePoints, month:bonusMonth(g.kid), preview:g.preview}); }
+  }
   else if (m.type === 'exit') closeGame(false);
 });
 
@@ -1317,8 +1326,8 @@ function vMap(){
     '<div class="rocket" id="rocket"><div class="rk-in">' + rocketSvg() + '<span class="porthole' + (k.photo ? ' ph' : '') + '">' + avHtml(k) + '</span></div></div>' +
     (list.length ? '' : '<div class="empty-note">No missions yet — check back soon!</div>') + '</div>';
   return top + banner + '<div class="map-layout" style="' + kidVars(k.color) + '">' + vSide(kid, k, st, list) + '<section class="trail-wrap" aria-label="Mission map">' + trail + '</section></div>' +
-    '<div class="cta-float' + (S.preview ? '' : ' has-game') + '" style="' + kidVars(k.color) + '">' + vCta(kid, list) +
-    (S.preview ? '' : '<button class="cta-game" data-act="game" aria-label="Bonus game: ' + esc(GAME.name) + '">' + ic('globe') + '<span>Bonus</span></button>') + '</div>';
+    '<div class="cta-float has-game" style="' + kidVars(k.color) + '">' + vCta(kid, list) +
+    '<button class="cta-game" data-act="game" aria-label="Bonus game: ' + esc(GAME.name) + '">' + ic('globe') + '<span>Bonus</span></button></div>';
 }
 function splineSegs(p){
   var s = [];
